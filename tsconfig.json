@@ -1,0 +1,42 @@
+{
+	"compilerOptions": {
+		"alwaysStrict": true,
+		"declaration": true,
+		"module": "esnext",
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"forceConsistentCasingInFileNames": true,
+		"inlineSourceMap": false,
+		"esModuleInterop": true,
+		"baseUrl": ".",
+		"target": "ES2018",
+		"moduleResolution": "node",
+		"strict": true,
+		"noEmitOnError": true,
+		"resolveJsonModule": true,
+		"removeComments": true,
+		"newLine": "LF",
+		"types": [ "node" ],
+		"lib": [ "ES2018" ],
+		"noUnusedLocals": true,
+		"noImplicitAny": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"strictNullChecks": true,
+		"strictPropertyInitialization": true,
+		"strictFunctionTypes": true,
+		"allowSyntheticDefaultImports": true
+	},
+	"include": [
+		"src/**/*.ts"
+, "src/index.ts_"	],
+	"exclude": [
+		"dist",
+		"node_modules",
+		"test",
+		"rollup.config.js",
+		"**/*.spec.tsx",
+		"**/*.spec.ts",
+		"**/*.stories.tsx"
+	]
+}
