@@ -146,7 +146,7 @@ export async function createServer(options: Options): Promise<Server> {
 			getStatsEndpoint = options.endpoints.getStats;
 		}
 	}
-	else if (typeof options.endpoints != null) {
+	else if (options.endpoints != null) {
 		throw new Error("Invalid endpoints");
 	}
 
@@ -222,13 +222,10 @@ export async function createServer(options: Options): Promise<Server> {
 				const requestId = nextStatRequestId;
 				nextStatRequestId += 1;
 
-				onHealthRequest(
-					req, res, accessToken, activeStatRequests, requestId, options.getHealthCallback,
-					cluster
-				);
+				onHealthRequest(req, res, accessToken, activeStatRequests, requestId, options.getHealthCallback, cluster);
 			}
 			else if (req.url === getStatsEndpoint) {
-				onStatsRequest(req, res, accessToken, registry, cluster != null);
+				onStatsRequest(req, res, accessToken, registry, cluster);
 			}
 			else {
 				// Other URLs are not accepted
@@ -372,7 +369,7 @@ function onStatsRequest(
 	res: http.ServerResponse,
 	accessToken: string | null,
 	registry: promclient.Registry,
-	useClustering?: boolean
+	cluster: ClusterModule | null
 ): void {
 	// Check access
 	if (!checkAccess(req, accessToken)) {
@@ -381,7 +378,7 @@ function onStatsRequest(
 	}
 
 	// Gather for metrics
-	const promise = (useClustering) ? (registry as promclient.AggregatorRegistry).clusterMetrics() : registry.metrics();
+	const promise = (cluster) ? (registry as promclient.AggregatorRegistry).clusterMetrics() : registry.metrics();
 	promise.then((data: string) => {
 		// Disable cache and enable CORS on any request
 		disableCacheAndEnableCORS(res);
